@@ -7,6 +7,11 @@ class MockDio extends Mock implements Dio {}
 
 class FakeOptions extends Fake implements Options {}
 
+Response<dynamic> mockResponse(String path, dynamic data) => Response(
+  requestOptions: RequestOptions(path: path),
+  data: data,
+);
+
 const authPayload = {
   'access_token': 'access-token',
   'refresh_token': 'refresh-token',
@@ -95,39 +100,29 @@ void main() {
       when(
         () => dio.post(
           '/auth/v1/token?grant_type=password',
-          data: {'email': 'rick@c137.dev', 'password': 'portal-gun'},
+          data: any(named: 'data'),
         ),
       ).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(
-            path: '/auth/v1/token?grant_type=password',
-          ),
-          data: authPayload,
-        ),
+        (_) async =>
+            mockResponse('/auth/v1/token?grant_type=password', authPayload),
       );
 
       final response = await client.login('rick@c137.dev', 'portal-gun');
 
       expect(response, expectedAuthResponse);
       expect(authInterceptor.accessToken, 'access-token');
+      verify(
+        () => dio.post(
+          '/auth/v1/token?grant_type=password',
+          data: {'email': 'rick@c137.dev', 'password': 'portal-gun'},
+        ),
+      ).called(1);
     });
 
     test('register', () async {
       when(
-        () => dio.post(
-          '/auth/v1/signup',
-          data: {
-            'email': 'rick@c137.dev',
-            'password': 'portal-gun',
-            'data': profile.toJson(),
-          },
-        ),
-      ).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(path: '/auth/v1/signup'),
-          data: authPayload,
-        ),
-      );
+        () => dio.post('/auth/v1/signup', data: any(named: 'data')),
+      ).thenAnswer((_) async => mockResponse('/auth/v1/signup', authPayload));
 
       final response = await client.register(
         'rick@c137.dev',
@@ -142,12 +137,9 @@ void main() {
     test('logout', () async {
       authInterceptor.setAccessToken('access-token');
 
-      when(() => dio.post('/auth/v1/logout')).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(path: '/auth/v1/logout'),
-          data: null,
-        ),
-      );
+      when(
+        () => dio.post('/auth/v1/logout'),
+      ).thenAnswer((_) async => mockResponse('/auth/v1/logout', null));
 
       await client.logout();
 
@@ -164,18 +156,13 @@ void main() {
       when(
         () => dio.patch(
           '/rest/v1/profiles',
-          queryParameters: {
-            'id': 'eq.user-id',
-            'select': 'nickname,avatar,email_visibility',
-          },
-          data: changedProfile.toJson(),
+          queryParameters: any(named: 'queryParameters'),
+          data: any(named: 'data'),
           options: any(named: 'options'),
         ),
       ).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(path: '/rest/v1/profiles'),
-          data: [changedProfile.toJson()],
-        ),
+        (_) async =>
+            mockResponse('/rest/v1/profiles', [changedProfile.toJson()]),
       );
 
       final response = await client.changeProfile('user-id', changedProfile);
@@ -187,21 +174,18 @@ void main() {
       when(
         () => dio.post(
           '/rest/v1/games',
-          data: game.toJson(),
+          data: any(named: 'data'),
           options: any(named: 'options'),
         ),
       ).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(path: '/rest/v1/games'),
-          data: [
-            {
-              'id': 'game-id',
-              'category': 'Image',
-              'scheduled_at': '2026-03-29T10:00:00.000Z',
-              'is_finished': false,
-            },
-          ],
-        ),
+        (_) async => mockResponse('/rest/v1/games', [
+          {
+            'id': 'game-id',
+            'category': 'Image',
+            'scheduled_at': '2026-03-29T10:00:00.000Z',
+            'is_finished': false,
+          },
+        ]),
       );
 
       final response = await client.createGame(game);
@@ -213,20 +197,17 @@ void main() {
       when(
         () => dio.get(
           '/rest/v1/games',
-          queryParameters: {'select': 'id,category,scheduled_at,is_finished'},
+          queryParameters: any(named: 'queryParameters'),
         ),
       ).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(path: '/rest/v1/games'),
-          data: [
-            {
-              'id': 'game-id',
-              'category': 'Image',
-              'scheduled_at': '2026-03-29T10:00:00.000Z',
-              'is_finished': false,
-            },
-          ],
-        ),
+        (_) async => mockResponse('/rest/v1/games', [
+          {
+            'id': 'game-id',
+            'category': 'Image',
+            'scheduled_at': '2026-03-29T10:00:00.000Z',
+            'is_finished': false,
+          },
+        ]),
       );
 
       final response = await client.getAllGames();
@@ -238,23 +219,17 @@ void main() {
       when(
         () => dio.get(
           '/rest/v1/games',
-          queryParameters: {
-            'id': 'eq.game-id',
-            'select': 'id,category,scheduled_at,is_finished',
-          },
+          queryParameters: any(named: 'queryParameters'),
         ),
       ).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(path: '/rest/v1/games'),
-          data: [
-            {
-              'id': 'game-id',
-              'category': 'Image',
-              'scheduled_at': '2026-03-29T10:00:00.000Z',
-              'is_finished': false,
-            },
-          ],
-        ),
+        (_) async => mockResponse('/rest/v1/games', [
+          {
+            'id': 'game-id',
+            'category': 'Image',
+            'scheduled_at': '2026-03-29T10:00:00.000Z',
+            'is_finished': false,
+          },
+        ]),
       );
 
       final response = await client.getGameById('game-id');
@@ -266,25 +241,22 @@ void main() {
       when(
         () => dio.post(
           '/rest/v1/game_participants',
-          data: {'game_id': 'game-id', 'user_id': 'user-id'},
+          data: any(named: 'data'),
           options: any(named: 'options'),
         ),
       ).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(path: '/rest/v1/game_participants'),
-          data: [
-            {
-              'id': 'participant-id',
-              'game_id': 'game-id',
-              'user_id': 'user-id',
-              'joined_at': '2026-03-29T10:05:00.000Z',
-              'score': 0,
-              'has_left': false,
-              'created': '2026-03-29T10:05:00.000Z',
-              'updated': '2026-03-29T10:05:00.000Z',
-            },
-          ],
-        ),
+        (_) async => mockResponse('/rest/v1/game_participants', [
+          {
+            'id': 'participant-id',
+            'game_id': 'game-id',
+            'user_id': 'user-id',
+            'joined_at': '2026-03-29T10:05:00.000Z',
+            'score': 0,
+            'has_left': false,
+            'created': '2026-03-29T10:05:00.000Z',
+            'updated': '2026-03-29T10:05:00.000Z',
+          },
+        ]),
       );
 
       final response = await client.joinGame('game-id', 'user-id');
@@ -296,29 +268,22 @@ void main() {
       when(
         () => dio.get(
           '/rest/v1/user_statistics',
-          queryParameters: {
-            'user_id': 'eq.user-id',
-            'select':
-                'id,user_id,total_earnings,games_won,games_played,games_scheduled_this_week,created,updated,updated_at',
-          },
+          queryParameters: any(named: 'queryParameters'),
         ),
       ).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(path: '/rest/v1/user_statistics'),
-          data: [
-            {
-              'id': 'stats-id',
-              'user_id': 'user-id',
-              'total_earnings': 100,
-              'games_won': 3,
-              'games_played': 5,
-              'games_scheduled_this_week': 2,
-              'created': '2026-03-29T10:00:00.000Z',
-              'updated': '2026-03-29T11:00:00.000Z',
-              'updated_at': '2026-03-29T11:00:00.000Z',
-            },
-          ],
-        ),
+        (_) async => mockResponse('/rest/v1/user_statistics', [
+          {
+            'id': 'stats-id',
+            'user_id': 'user-id',
+            'total_earnings': 100,
+            'games_won': 3,
+            'games_played': 5,
+            'games_scheduled_this_week': 2,
+            'created': '2026-03-29T10:00:00.000Z',
+            'updated': '2026-03-29T11:00:00.000Z',
+            'updated_at': '2026-03-29T11:00:00.000Z',
+          },
+        ]),
       );
 
       final response = await client.getUserStatistics('user-id');
@@ -330,17 +295,10 @@ void main() {
       when(
         () => dio.get(
           '/rest/v1/user_statistics',
-          queryParameters: {
-            'user_id': 'eq.user-id',
-            'select':
-                'id,user_id,total_earnings,games_won,games_played,games_scheduled_this_week,created,updated,updated_at',
-          },
+          queryParameters: any(named: 'queryParameters'),
         ),
       ).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(path: '/rest/v1/user_statistics'),
-          data: const [],
-        ),
+        (_) async => mockResponse('/rest/v1/user_statistics', const []),
       );
 
       final response = await client.getUserStatistics('user-id');
@@ -352,24 +310,21 @@ void main() {
       when(
         () => dio.post(
           '/rest/v1/game_results',
-          data: gameResult.toJson(),
+          data: any(named: 'data'),
           options: any(named: 'options'),
         ),
       ).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(path: '/rest/v1/game_results'),
-          data: [
-            {
-              'id': 'result-id',
-              'game_id': 'game-id',
-              'winner_id': 'user-id',
-              'completion_time_ms': 12345,
-              'earned_points': 50,
-              'created': '2026-03-29T12:00:00.000Z',
-              'updated': '2026-03-29T12:00:00.000Z',
-            },
-          ],
-        ),
+        (_) async => mockResponse('/rest/v1/game_results', [
+          {
+            'id': 'result-id',
+            'game_id': 'game-id',
+            'winner_id': 'user-id',
+            'completion_time_ms': 12345,
+            'earned_points': 50,
+            'created': '2026-03-29T12:00:00.000Z',
+            'updated': '2026-03-29T12:00:00.000Z',
+          },
+        ]),
       );
 
       final response = await client.saveGameResult(gameResult);
