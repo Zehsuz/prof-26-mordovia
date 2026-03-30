@@ -139,7 +139,7 @@ void main() {
       expect(
         () => client.createGame(gameRequest),
         throwsA(
-          isA<DataException>().having(
+          isA<QueryException>().having(
             (error) => error.operation,
             'operation',
             'createGame',
@@ -160,7 +160,7 @@ void main() {
       expect(
         () => client.getGameById('game-id'),
         throwsA(
-          isA<DataException>().having(
+          isA<QueryException>().having(
             (error) => error.operation,
             'operation',
             'getGameById',

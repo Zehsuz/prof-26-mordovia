@@ -60,7 +60,7 @@ class QueryGraphqlClient with CustomLogger implements GameClient {
           result.data?['insertIntogamesCollection']?['records']
               as List<dynamic>?;
       if (records == null || records.isEmpty) {
-        const exception = DataException(
+        const exception = QueryException(
           message: 'GraphQL response does not contain created game',
           operation: 'createGame',
         );
@@ -75,11 +75,11 @@ class QueryGraphqlClient with CustomLogger implements GameClient {
         Map<String, dynamic>.from(records.first as Map),
       );
     } catch (error) {
-      if (error is DataException) {
+      if (error is QueryException) {
         rethrow;
       }
       logError('createGame завершился с ${error.runtimeType}: $error');
-      throw DataException(
+      throw QueryException(
         message: error.toString(),
         operation: 'createGame',
         cause: error,
@@ -125,11 +125,11 @@ class QueryGraphqlClient with CustomLogger implements GameClient {
       logDebug('Успех getGameById для gameId=$gameId');
       return GameResponse.fromJson(node);
     } catch (error) {
-      if (error is DataException) {
+      if (error is QueryException) {
         rethrow;
       }
       logError('getGameById завершился с ${error.runtimeType}: $error');
-      throw DataException(
+      throw QueryException(
         message: error.toString(),
         operation: 'getGameById',
         cause: error,

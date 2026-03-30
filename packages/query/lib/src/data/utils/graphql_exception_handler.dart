@@ -6,18 +6,18 @@ import 'exception_mapper.dart';
 abstract interface class GraphqlExceptionHandler
     implements ExceptionMapper<OperationException> {
   @override
-  DataException map(OperationException error, {required String operation});
+  QueryException map(OperationException error, {required String operation});
 }
 
 final class DefaultGraphqlExceptionHandler implements GraphqlExceptionHandler {
   const DefaultGraphqlExceptionHandler();
 
   @override
-  DataException map(OperationException error, {required String operation}) {
+  QueryException map(OperationException error, {required String operation}) {
     final linkException = error.linkException;
 
     if (linkException is NetworkException) {
-      return DataException(
+      return QueryException(
         message: linkException.message ?? 'Network error while fetching data',
         operation: operation,
         cause: linkException,
@@ -25,7 +25,7 @@ final class DefaultGraphqlExceptionHandler implements GraphqlExceptionHandler {
     }
 
     if (linkException is ServerException) {
-      return DataException(
+      return QueryException(
         message: 'Server error while fetching data',
         operation: operation,
         cause: linkException,
@@ -33,14 +33,14 @@ final class DefaultGraphqlExceptionHandler implements GraphqlExceptionHandler {
     }
 
     if (linkException is UnknownException) {
-      return DataException(
+      return QueryException(
         message: 'Unknown client error while fetching data',
         operation: operation,
         cause: linkException,
       );
     }
 
-    return DataException(
+    return QueryException(
       message: error.toString(),
       operation: operation,
       cause: error,

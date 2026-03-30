@@ -1,9 +1,9 @@
-class DataException implements Exception {
+class QueryException implements Exception {
   final String message;
   final String operation;
   final Object? cause;
 
-  const DataException({
+  const QueryException({
     required this.message,
     required this.operation,
     this.cause,

@@ -276,7 +276,7 @@ class QueryHttpClient
     }
   }
 
-  DataException _logAndMapError(
+  QueryException _logAndMapError(
     DioException error, {
     required String operation,
   }) {
