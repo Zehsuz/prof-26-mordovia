@@ -86,7 +86,7 @@ QueryGraphqlClient _buildGraphqlClient({String? accessToken}) {
           'Authorization': 'Bearer ${accessToken ?? _supabaseAnonKey}',
         },
       ),
-      cache: GraphQLCache(),
+      cache: GraphQLCache(store: InMemoryStore()),
     ),
   );
 }

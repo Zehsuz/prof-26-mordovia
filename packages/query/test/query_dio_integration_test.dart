@@ -46,11 +46,25 @@ void main() {
       );
     });
 
+    test('image', () async {
+      // final picker = ImagePicker();
+      // final data = await picker.retrieveLostData();
+
+      // final img = await data.file?.readAsBytes();
+      // final string = base64Encode(img!);
+
+      // final decoded = base64Decode(string);
+
+      // Image.memory(decoded);
+    }, skip: true);
+
     test('login', () async {
       final response = await client.login(
         _existingUserEmail,
         _existingUserPassword,
       );
+
+      print(response);
 
       expect(response.accessToken, isNotEmpty);
       expect(response.refreshToken, isNotEmpty);
