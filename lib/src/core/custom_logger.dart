@@ -18,6 +18,11 @@ mixin CustomLogger {
   }
 
   void _log(String message, {required Level level}) {
-    log(message, level: level.value, time: DateTime.timestamp());
+    log(
+      message,
+      name: runtimeType.toString(),
+      level: level.value,
+      time: DateTime.timestamp(),
+    );
   }
 }
