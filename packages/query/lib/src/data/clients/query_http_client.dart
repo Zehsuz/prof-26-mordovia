@@ -34,7 +34,7 @@ class QueryHttpClient {
   Future<AuthResponse> register(
     String email,
     String password,
-    ProfileDto profile,
+    ProfileRequest profile,
   ) async {
     try {
       final response = await _dio.post(
@@ -50,7 +50,15 @@ class QueryHttpClient {
         refreshToken: authResponse.refreshToken,
         expiresIn: authResponse.expiresIn,
         tokenType: authResponse.tokenType,
-        user: UserDto(id: user.id, email: email, profile: profile),
+        user: UserResponse(
+          id: user.id,
+          email: email,
+          profile: ProfileResponse(
+            nickname: profile.nickname,
+            avatar: profile.avatar,
+            emailVisibility: profile.emailVisibility,
+          ),
+        ),
       );
     } on DioException catch (error) {
       throw DataException(
@@ -74,7 +82,7 @@ class QueryHttpClient {
     }
   }
 
-  Future<ProfileDto?> getProfile(String userId) async {
+  Future<ProfileResponse?> getProfile(String userId) async {
     try {
       final response = await _dio.get<dynamic>(
         '/rest/v1/profiles',
@@ -84,7 +92,7 @@ class QueryHttpClient {
         },
       );
 
-      return ProfileDto.fromJson(response.data.first);
+      return ProfileResponse.fromJson(response.data.first);
     } on DioException catch (error) {
       throw DataException(
         message: _resolveErrorMessage(error),
@@ -94,7 +102,10 @@ class QueryHttpClient {
     }
   }
 
-  Future<ProfileDto> changeProfile(String userId, ProfileDto profile) async {
+  Future<ProfileResponse> changeProfile(
+    String userId,
+    ProfileRequest profile,
+  ) async {
     try {
       final response = await _dio.patch<dynamic>(
         '/rest/v1/profiles',
@@ -106,7 +117,7 @@ class QueryHttpClient {
         options: Options(headers: {'Prefer': 'return=representation'}),
       );
 
-      return ProfileDto.fromJson(response.data.first);
+      return ProfileResponse.fromJson(response.data.first);
     } on DioException catch (error) {
       throw DataException(
         message: _resolveErrorMessage(error),
@@ -116,7 +127,7 @@ class QueryHttpClient {
     }
   }
 
-  Future<GameDto> createGame(GameDto game) async {
+  Future<GameResponse> createGame(GameRequest game) async {
     try {
       final response = await _dio.post<dynamic>(
         '/rest/v1/games',
@@ -124,7 +135,7 @@ class QueryHttpClient {
         options: Options(headers: {'Prefer': 'return=representation'}),
       );
 
-      return GameDto.fromJson(response.data.first);
+      return GameResponse.fromJson(response.data.first);
     } on DioException catch (error) {
       throw DataException(
         message: _resolveErrorMessage(error),
@@ -134,7 +145,7 @@ class QueryHttpClient {
     }
   }
 
-  Future<List<GameDto>> getAllGames() async {
+  Future<List<GameResponse>> getAllGames() async {
     try {
       final response = await _dio.get<dynamic>(
         '/rest/v1/games',
@@ -142,7 +153,7 @@ class QueryHttpClient {
       );
 
       return (response.data as List)
-          .map((raw) => GameDto.fromJson(raw))
+          .map((raw) => GameResponse.fromJson(raw))
           .toList();
     } on DioException catch (error) {
       throw DataException(
@@ -153,7 +164,7 @@ class QueryHttpClient {
     }
   }
 
-  Future<GameDto?> getGameById(String gameId) async {
+  Future<GameResponse?> getGameById(String gameId) async {
     try {
       final response = await _dio.get(
         '/rest/v1/games',
@@ -168,7 +179,7 @@ class QueryHttpClient {
         return null;
       }
 
-      return GameDto.fromJson(data.first);
+      return GameResponse.fromJson(data.first);
     } on DioException catch (error) {
       throw DataException(
         message: _resolveErrorMessage(error),
@@ -178,7 +189,7 @@ class QueryHttpClient {
     }
   }
 
-  Future<GameParticipantDto> joinGame(String gameId, String userId) async {
+  Future<GameParticipantResponse> joinGame(String gameId, String userId) async {
     try {
       final response = await _dio.post(
         '/rest/v1/game_participants',
@@ -186,7 +197,7 @@ class QueryHttpClient {
         options: Options(headers: {'Prefer': 'return=representation'}),
       );
 
-      return GameParticipantDto.fromJson(response.data.first);
+      return GameParticipantResponse.fromJson(response.data.first);
     } on DioException catch (error) {
       throw DataException(
         message: _resolveErrorMessage(error),
@@ -196,7 +207,7 @@ class QueryHttpClient {
     }
   }
 
-  Future<UserStatisticsDto?> getUserStatistics(String userId) async {
+  Future<UserStatisticsResponse?> getUserStatistics(String userId) async {
     try {
       final response = await _dio.get(
         '/rest/v1/user_statistics',
@@ -212,7 +223,7 @@ class QueryHttpClient {
         return null;
       }
 
-      return UserStatisticsDto.fromJson(data.first);
+      return UserStatisticsResponse.fromJson(data.first);
     } on DioException catch (error) {
       throw DataException(
         message: _resolveErrorMessage(error),
@@ -222,7 +233,9 @@ class QueryHttpClient {
     }
   }
 
-  Future<GameResultDto> saveGameResult(GameResultDto gameResult) async {
+  Future<GameResultResponse> saveGameResult(
+    GameResultRequest gameResult,
+  ) async {
     try {
       final response = await _dio.post(
         '/rest/v1/game_results',
@@ -230,7 +243,7 @@ class QueryHttpClient {
         options: Options(headers: {'Prefer': 'return=representation'}),
       );
 
-      return GameResultDto.fromJson(response.data.first);
+      return GameResultResponse.fromJson(response.data.first);
     } on DioException catch (error) {
       throw DataException(
         message: _resolveErrorMessage(error),

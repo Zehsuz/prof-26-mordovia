@@ -31,7 +31,11 @@ final expectedRegisterResponse = AuthResponse(
   refreshToken: 'refresh-token',
   expiresIn: 3600,
   tokenType: 'bearer',
-  user: UserDto(id: 'user-id', email: 'rick@c137.dev', profile: profile),
+  user: UserResponse(
+    id: 'user-id',
+    email: 'rick@c137.dev',
+    profile: profileResponse,
+  ),
 );
 
 final expectedAuthResponse = AuthResponse(
@@ -39,17 +43,26 @@ final expectedAuthResponse = AuthResponse(
   refreshToken: 'refresh-token',
   expiresIn: 3600,
   tokenType: 'bearer',
-  user: UserDto(id: 'user-id', email: 'rick@c137.dev'),
+  user: UserResponse(id: 'user-id', email: 'rick@c137.dev'),
 );
 
-const profile = ProfileDto(nickname: 'rick', emailVisibility: true);
-final game = GameDto(
+const profileRequest = ProfileRequest(nickname: 'rick', emailVisibility: true);
+const profileResponse = ProfileResponse(
+  nickname: 'rick',
+  emailVisibility: true,
+);
+final gameRequest = GameRequest(
+  category: 'Image',
+  scheduledAt: DateTime.parse('2026-03-29T10:00:00.000Z'),
+  isFinished: false,
+);
+final gameResponse = GameResponse(
   id: 'game-id',
   category: 'Image',
   scheduledAt: DateTime.parse('2026-03-29T10:00:00.000Z'),
   isFinished: false,
 );
-final participant = GameParticipantDto(
+final participant = GameParticipantResponse(
   id: 'participant-id',
   gameId: 'game-id',
   userId: 'user-id',
@@ -59,7 +72,7 @@ final participant = GameParticipantDto(
   created: DateTime.parse('2026-03-29T10:05:00.000Z'),
   updated: DateTime.parse('2026-03-29T10:05:00.000Z'),
 );
-final statistics = UserStatisticsDto(
+final statistics = UserStatisticsResponse(
   id: 'stats-id',
   userId: 'user-id',
   totalEarnings: 100,
@@ -70,7 +83,13 @@ final statistics = UserStatisticsDto(
   updated: DateTime.parse('2026-03-29T11:00:00.000Z'),
   updatedAt: DateTime.parse('2026-03-29T11:00:00.000Z'),
 );
-final gameResult = GameResultDto(
+final gameResultRequest = GameResultRequest(
+  gameId: 'game-id',
+  winnerId: 'user-id',
+  completionTimeMs: 12345,
+  earnedPoints: 50,
+);
+final gameResultResponse = GameResultResponse(
   id: 'result-id',
   gameId: 'game-id',
   winnerId: 'user-id',
@@ -127,7 +146,7 @@ void main() {
       final response = await client.register(
         'rick@c137.dev',
         'portal-gun',
-        profile,
+        profileRequest,
       );
 
       expect(response, expectedRegisterResponse);
@@ -147,7 +166,7 @@ void main() {
     });
 
     test('changeProfile', () async {
-      const changedProfile = ProfileDto(
+      const changedProfile = ProfileRequest(
         nickname: 'morty',
         avatar: 'https://example.com/avatar.png',
         emailVisibility: false,
@@ -167,7 +186,14 @@ void main() {
 
       final response = await client.changeProfile('user-id', changedProfile);
 
-      expect(response, changedProfile);
+      expect(
+        response,
+        const ProfileResponse(
+          nickname: 'morty',
+          avatar: 'https://example.com/avatar.png',
+          emailVisibility: false,
+        ),
+      );
     });
 
     test('createGame', () async {
@@ -188,9 +214,9 @@ void main() {
         ]),
       );
 
-      final response = await client.createGame(game);
+      final response = await client.createGame(gameRequest);
 
-      expect(response, game);
+      expect(response, gameResponse);
     });
 
     test('getAllGames', () async {
@@ -212,7 +238,7 @@ void main() {
 
       final response = await client.getAllGames();
 
-      expect(response, [game]);
+      expect(response, [gameResponse]);
     });
 
     test('getGameById', () async {
@@ -234,7 +260,7 @@ void main() {
 
       final response = await client.getGameById('game-id');
 
-      expect(response, game);
+      expect(response, gameResponse);
     });
 
     test('joinGame', () async {
@@ -327,9 +353,9 @@ void main() {
         ]),
       );
 
-      final response = await client.saveGameResult(gameResult);
+      final response = await client.saveGameResult(gameResultRequest);
 
-      expect(response, gameResult);
+      expect(response, gameResultResponse);
     });
   });
 }

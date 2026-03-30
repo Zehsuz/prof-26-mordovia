@@ -12,12 +12,12 @@ const _existingUserEmail = 'existing_test@gmail.com';
 const _existingUserPassword = 'QQQw1029384756+-';
 final _newUserEmail = 'test${DateTime.now().millisecondsSinceEpoch}@gmail.com';
 const _newUserPassword = '12j3213w123WD32e2+';
-const _newUserProfile = ProfileDto(
+const _newUserProfile = ProfileRequest(
   nickname: 'integration-user',
   avatar: null,
   emailVisibility: true,
 );
-final _newGame = GameDto(
+final _newGame = GameRequest(
   category: 'Image',
   scheduledAt: DateTime.now().toUtc().add(const Duration(days: 1)),
   isFinished: false,
@@ -64,7 +64,12 @@ void main() {
 
       expect(response.user, isNotNull);
       expect(response.user.email, _newUserEmail);
-      expect(response.user.profile, _newUserProfile);
+      expect(response.user.profile?.nickname, _newUserProfile.nickname);
+      expect(response.user.profile?.avatar, _newUserProfile.avatar);
+      expect(
+        response.user.profile?.emailVisibility,
+        _newUserProfile.emailVisibility,
+      );
       expect(authInterceptor.accessToken, response.accessToken);
     });
 
@@ -90,7 +95,9 @@ void main() {
 
       final profile = await client.getProfile(authResponse.user.id);
 
-      expect(profile, _newUserProfile);
+      expect(profile?.nickname, _newUserProfile.nickname);
+      expect(profile?.avatar, _newUserProfile.avatar);
+      expect(profile?.emailVisibility, _newUserProfile.emailVisibility);
     });
 
     test('changeProfile', () async {
@@ -98,7 +105,7 @@ void main() {
         _existingUserEmail,
         _existingUserPassword,
       );
-      final changedProfile = ProfileDto(
+      final changedProfile = ProfileRequest(
         nickname: 'updated-${DateTime.now().millisecondsSinceEpoch}',
         avatar:
             'https://example.com/avatar-${DateTime.now().millisecondsSinceEpoch}.png',
@@ -136,7 +143,7 @@ void main() {
       await client.login(_existingUserEmail, _existingUserPassword);
 
       final created = await client.createGame(
-        GameDto(
+        GameRequest(
           category: 'Image',
           scheduledAt: DateTime.now().toUtc().add(const Duration(days: 2)),
           isFinished: false,
@@ -153,7 +160,7 @@ void main() {
       await client.login(_existingUserEmail, _existingUserPassword);
 
       final created = await client.createGame(
-        GameDto(
+        GameRequest(
           category: 'Image',
           scheduledAt: DateTime.now().toUtc().add(const Duration(days: 3)),
           isFinished: false,
@@ -175,7 +182,7 @@ void main() {
         _existingUserPassword,
       );
       final createdGame = await client.createGame(
-        GameDto(
+        GameRequest(
           category: 'Image',
           scheduledAt: DateTime.now().toUtc().add(const Duration(days: 4)),
           isFinished: false,
@@ -215,13 +222,13 @@ void main() {
         _existingUserPassword,
       );
       final createdGame = await client.createGame(
-        GameDto(
+        GameRequest(
           category: 'Image',
           scheduledAt: DateTime.now().toUtc().add(const Duration(days: 5)),
           isFinished: false,
         ),
       );
-      final result = GameResultDto(
+      final result = GameResultRequest(
         gameId: createdGame.id!,
         winnerId: authResponse.user.id,
         completionTimeMs: 12345,

@@ -1,6 +1,30 @@
 import 'package:equatable/equatable.dart';
 
-class GameResultDto extends Equatable {
+class GameResultRequest extends Equatable {
+  final String gameId;
+  final String winnerId;
+  final num completionTimeMs;
+  final num earnedPoints;
+
+  const GameResultRequest({
+    required this.gameId,
+    required this.winnerId,
+    required this.completionTimeMs,
+    required this.earnedPoints,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'game_id': gameId,
+    'winner_id': winnerId,
+    'completion_time_ms': completionTimeMs,
+    'earned_points': earnedPoints,
+  };
+
+  @override
+  List<Object?> get props => [gameId, winnerId, completionTimeMs, earnedPoints];
+}
+
+class GameResultResponse extends Equatable {
   final String? id;
   final String gameId;
   final String winnerId;
@@ -9,7 +33,7 @@ class GameResultDto extends Equatable {
   final DateTime? created;
   final DateTime? updated;
 
-  const GameResultDto({
+  const GameResultResponse({
     this.id,
     required this.gameId,
     required this.winnerId,
@@ -19,8 +43,8 @@ class GameResultDto extends Equatable {
     this.updated,
   });
 
-  factory GameResultDto.fromJson(Map<String, dynamic> json) {
-    return GameResultDto(
+  factory GameResultResponse.fromJson(Map<String, dynamic> json) {
+    return GameResultResponse(
       id: json['id'] as String?,
       gameId: json['game_id'] as String,
       winnerId: json['winner_id'] as String,
@@ -34,13 +58,6 @@ class GameResultDto extends Equatable {
           : DateTime.parse(json['updated'] as String),
     );
   }
-
-  Map<String, dynamic> toJson() => {
-    'game_id': gameId,
-    'winner_id': winnerId,
-    'completion_time_ms': completionTimeMs,
-    'earned_points': earnedPoints,
-  };
 
   @override
   List<Object?> get props => [

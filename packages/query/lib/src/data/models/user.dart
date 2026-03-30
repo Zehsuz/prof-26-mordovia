@@ -2,19 +2,22 @@ import 'package:equatable/equatable.dart';
 
 import 'models.dart';
 
-class UserDto extends Equatable {
+class UserResponse extends Equatable {
   final String id;
   final String email;
-  final ProfileDto? profile;
+  final ProfileResponse? profile;
 
-  const UserDto({required this.id, required this.email, this.profile});
+  const UserResponse({required this.id, required this.email, this.profile});
 
-  factory UserDto.fromJson(Map<String, dynamic> json) {
-    return UserDto(id: json['id'] as String, email: json['email'] as String);
+  factory UserResponse.fromJson(Map<String, dynamic> json) {
+    return UserResponse(
+      id: json['id'] as String,
+      email: json['email'] as String,
+    );
   }
 
-  UserDto copyWith({String? id, String? email, ProfileDto? profile}) {
-    return UserDto(
+  UserResponse copyWith({String? id, String? email, ProfileResponse? profile}) {
+    return UserResponse(
       id: id ?? this.id,
       email: email ?? this.email,
       profile: profile ?? this.profile,

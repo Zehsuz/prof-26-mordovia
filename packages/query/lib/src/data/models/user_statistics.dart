@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class UserStatisticsDto extends Equatable {
+class UserStatisticsResponse extends Equatable {
   final String? id;
   final String userId;
   final num? totalEarnings;
@@ -11,7 +11,7 @@ class UserStatisticsDto extends Equatable {
   final DateTime? updated;
   final DateTime? updatedAt;
 
-  const UserStatisticsDto({
+  const UserStatisticsResponse({
     this.id,
     required this.userId,
     this.totalEarnings,
@@ -23,8 +23,8 @@ class UserStatisticsDto extends Equatable {
     this.updatedAt,
   });
 
-  factory UserStatisticsDto.fromJson(Map<String, dynamic> json) {
-    return UserStatisticsDto(
+  factory UserStatisticsResponse.fromJson(Map<String, dynamic> json) {
+    return UserStatisticsResponse(
       id: json['id'] as String?,
       userId: json['user_id'] as String,
       totalEarnings: json['total_earnings'] as num?,

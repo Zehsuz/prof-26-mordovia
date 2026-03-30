@@ -7,7 +7,7 @@ class AuthResponse extends Equatable {
   final String? refreshToken;
   final int? expiresIn;
   final String? tokenType;
-  final UserDto user;
+  final UserResponse user;
 
   const AuthResponse({
     this.accessToken,
@@ -25,7 +25,7 @@ class AuthResponse extends Equatable {
       refreshToken: json['refresh_token'] as String?,
       expiresIn: (json['expires_in'] as num?)?.toInt(),
       tokenType: json['token_type'] as String?,
-      user: UserDto.fromJson(userJson),
+      user: UserResponse.fromJson(userJson),
     );
   }
 
