@@ -18,6 +18,6 @@ mixin CustomLogger {
   }
 
   void _log(String message, {required Level level}) {
-    log(message, level: level.value, time: DateTime.timestamp());
+    log('$runtimeType $message', level: level.value, time: DateTime.timestamp());
   }
 }
