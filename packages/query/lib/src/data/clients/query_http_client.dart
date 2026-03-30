@@ -31,6 +31,7 @@ class QueryHttpClient
         '/auth/v1/token?grant_type=password',
         data: {'email': email, 'password': password},
       );
+
       final authResponse = AuthResponse.fromJson(response);
       _authInterceptor?.setAccessToken(authResponse.accessToken);
       logDebug('Успех login для $email');
