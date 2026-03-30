@@ -12,10 +12,7 @@ final class DioRestTransport implements RestTransport {
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {
-    final response = await _dio.get<dynamic>(
-      path,
-      queryParameters: queryParameters,
-    );
+    final response = await _dio.get(path, queryParameters: queryParameters);
 
     return response.data;
   }
@@ -27,7 +24,7 @@ final class DioRestTransport implements RestTransport {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   }) async {
-    final response = await _dio.post<dynamic>(
+    final response = await _dio.post(
       path,
       data: data,
       queryParameters: queryParameters,
@@ -44,7 +41,7 @@ final class DioRestTransport implements RestTransport {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   }) async {
-    final response = await _dio.patch<dynamic>(
+    final response = await _dio.patch(
       path,
       data: data,
       queryParameters: queryParameters,

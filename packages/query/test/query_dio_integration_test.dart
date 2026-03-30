@@ -40,7 +40,10 @@ void main() {
         ),
       );
       dio.interceptors.add(authInterceptor);
-      client = QueryHttpClient(dio: dio, authInterceptor: authInterceptor);
+      client = QueryHttpClient(
+        transport: DioRestTransport(dio: dio),
+        authInterceptor: authInterceptor,
+      );
     });
 
     test('login', () async {

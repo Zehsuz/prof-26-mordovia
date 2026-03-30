@@ -112,7 +112,10 @@ void main() {
     setUp(() {
       dio = MockDio();
       authInterceptor = AuthInterceptor();
-      client = QueryHttpClient(dio: dio, authInterceptor: authInterceptor);
+      client = QueryHttpClient(
+        transport: DioRestTransport(dio: dio),
+        authInterceptor: authInterceptor,
+      );
     });
 
     test('login', () async {

@@ -18,13 +18,15 @@ void main() {
 
     setUp(() {
       httpClient = QueryHttpClient(
-        dio: Dio(
-          BaseOptions(
-            baseUrl: _supabaseUrl,
-            headers: {
-              'apikey': _supabaseAnonKey,
-              'Authorization': 'Bearer $_supabaseAnonKey',
-            },
+        transport: DioRestTransport(
+          dio: Dio(
+            BaseOptions(
+              baseUrl: _supabaseUrl,
+              headers: {
+                'apikey': _supabaseAnonKey,
+                'Authorization': 'Bearer $_supabaseAnonKey',
+              },
+            ),
           ),
         ),
       );

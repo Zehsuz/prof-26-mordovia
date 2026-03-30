@@ -5,7 +5,6 @@ import '../exceptions/data_exception.dart';
 import '../models/models.dart';
 import '../utils/auth_interceptor.dart';
 import '../utils/dio_exception_handler.dart';
-import 'dio_rest_transport.dart';
 import 'query_client.dart';
 import 'rest_transport.dart';
 
@@ -16,19 +15,7 @@ class QueryHttpClient
   final AuthInterceptor? _authInterceptor;
   final DioExceptionHandler _errorHandler;
 
-  factory QueryHttpClient({
-    required Dio dio,
-    AuthInterceptor? authInterceptor,
-    DioExceptionHandler? errorHandler,
-  }) {
-    return QueryHttpClient._(
-      transport: DioRestTransport(dio: dio),
-      authInterceptor: authInterceptor,
-      errorHandler: errorHandler ?? const DefaultDioExceptionHandler(),
-    );
-  }
-
-  const QueryHttpClient._({
+  const QueryHttpClient({
     required RestTransport transport,
     AuthInterceptor? authInterceptor,
     DioExceptionHandler errorHandler = const DefaultDioExceptionHandler(),
@@ -44,9 +31,7 @@ class QueryHttpClient
         '/auth/v1/token?grant_type=password',
         data: {'email': email, 'password': password},
       );
-      final authResponse = AuthResponse.fromJson(
-        response as Map<String, dynamic>,
-      );
+      final authResponse = AuthResponse.fromJson(response);
       _authInterceptor?.setAccessToken(authResponse.accessToken);
       logDebug('Успех login для $email');
 
@@ -68,9 +53,7 @@ class QueryHttpClient
         '/auth/v1/signup',
         data: {'email': email, 'password': password, 'data': profile.toJson()},
       );
-      final authResponse = AuthResponse.fromJson(
-        response as Map<String, dynamic>,
-      );
+      final authResponse = AuthResponse.fromJson(response);
       _authInterceptor?.setAccessToken(authResponse.accessToken);
       final user = authResponse.user;
       logDebug('Успех register для $email');
