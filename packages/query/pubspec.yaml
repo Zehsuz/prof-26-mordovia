@@ -2,6 +2,7 @@ name: query
 description: Query lib for gametime app.
 version: 1.0.0
 repository: https://github.com/06ED/prof-26
+publish_to: none
 
 resolution: workspace
 
@@ -12,6 +13,11 @@ dependencies:
   graphql: ^5.2.4
   equatable: ^2.0.8
   dio: ^5.9.2
+
+  logging_helper:
+    git:
+      url: https://gitea.intelligent-system.ru/train2026/logging_helper.git
+      ref: master
 
 dev_dependencies:
   mocktail: ^1.0.4
