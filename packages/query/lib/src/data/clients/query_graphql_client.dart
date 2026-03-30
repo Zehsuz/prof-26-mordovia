@@ -3,32 +3,50 @@ import 'package:logging_helper/logging_helper.dart';
 
 import '../exceptions/data_exception.dart';
 import '../models/models.dart';
-import '../utils/graphql_exception_mapper.dart';
+import '../utils/graphql_exception_handler.dart';
+import 'default_graphql_transport.dart';
+import 'graphql_transport.dart';
+import 'query_client.dart';
 
-class QueryGraphqlClient with CustomLogger {
-  final GraphQLClient _client;
+class QueryGraphqlClient with CustomLogger implements GameClient {
+  final GraphqlTransport _transport;
+  final GraphqlExceptionHandler _errorHandler;
 
-  const QueryGraphqlClient({required GraphQLClient client}) : _client = client;
+  factory QueryGraphqlClient({
+    required GraphQLClient client,
+    GraphqlExceptionHandler? errorHandler,
+  }) {
+    return QueryGraphqlClient.withDependencies(
+      transport: DefaultGraphqlTransport(client: client),
+      errorHandler: errorHandler ?? const DefaultGraphqlExceptionHandler(),
+    );
+  }
 
+  const QueryGraphqlClient.withDependencies({
+    required GraphqlTransport transport,
+    GraphqlExceptionHandler errorHandler =
+        const DefaultGraphqlExceptionHandler(),
+  }) : _transport = transport,
+       _errorHandler = errorHandler;
+
+  @override
   Future<GameResponse> createGame(GameRequest game) async {
     logInfo(
       'Начало createGame для category=${game.category}, scheduledAt=${game.scheduledAt.toIso8601String()}',
     );
     try {
-      final result = await _client.mutate(
-        MutationOptions(
-          document: gql(_createGameMutation),
-          operationName: 'CreateGame',
-          variables: {
-            'category': game.category,
-            'scheduledAt': game.scheduledAt.toIso8601String(),
-            'isFinished': game.isFinished,
-          },
-        ),
+      final result = await _transport.mutate(
+        document: _createGameMutation,
+        operationName: 'CreateGame',
+        variables: {
+          'category': game.category,
+          'scheduledAt': game.scheduledAt.toIso8601String(),
+          'isFinished': game.isFinished,
+        },
       );
 
       if (result.hasException) {
-        final exception = mapGraphqlException(
+        final exception = _errorHandler.map(
           result.exception!,
           operation: 'createGame',
         );
@@ -69,19 +87,25 @@ class QueryGraphqlClient with CustomLogger {
     }
   }
 
+  @override
+  Future<List<GameResponse>> getAllGames() {
+    throw UnimplementedError(
+      'QueryGraphqlClient.getAllGames is not implemented',
+    );
+  }
+
+  @override
   Future<GameResponse?> getGameById(String gameId) async {
     logInfo('Начало getGameById для gameId=$gameId');
     try {
-      final result = await _client.query(
-        QueryOptions(
-          document: gql(_getGameByIdQuery),
-          operationName: 'GetGameById',
-          variables: {'id': gameId},
-        ),
+      final result = await _transport.query(
+        document: _getGameByIdQuery,
+        operationName: 'GetGameById',
+        variables: {'id': gameId},
       );
 
       if (result.hasException) {
-        final exception = mapGraphqlException(
+        final exception = _errorHandler.map(
           result.exception!,
           operation: 'getGameById',
         );
@@ -111,6 +135,25 @@ class QueryGraphqlClient with CustomLogger {
         cause: error,
       );
     }
+  }
+
+  @override
+  Future<GameParticipantResponse> joinGame(String gameId, String userId) {
+    throw UnimplementedError('QueryGraphqlClient.joinGame is not implemented');
+  }
+
+  @override
+  Future<UserStatisticsResponse?> getUserStatistics(String userId) {
+    throw UnimplementedError(
+      'QueryGraphqlClient.getUserStatistics is not implemented',
+    );
+  }
+
+  @override
+  Future<GameResultResponse> saveGameResult(GameResultRequest gameResult) {
+    throw UnimplementedError(
+      'QueryGraphqlClient.saveGameResult is not implemented',
+    );
   }
 }
 
