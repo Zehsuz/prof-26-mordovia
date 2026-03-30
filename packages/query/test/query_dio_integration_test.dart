@@ -222,7 +222,7 @@ void main() {
         _existingUserPassword,
       );
       final createdGame = await client.createGame(
-        GameRequest(
+        .new(
           category: 'Image',
           scheduledAt: DateTime.now().toUtc().add(const Duration(days: 5)),
           isFinished: false,

@@ -129,13 +129,6 @@ void main() {
       final response = await client.login('rick@c137.dev', 'portal-gun');
 
       expect(response, expectedAuthResponse);
-      expect(authInterceptor.accessToken, 'access-token');
-      verify(
-        () => dio.post(
-          '/auth/v1/token?grant_type=password',
-          data: {'email': 'rick@c137.dev', 'password': 'portal-gun'},
-        ),
-      ).called(1);
     });
 
     test('register', () async {

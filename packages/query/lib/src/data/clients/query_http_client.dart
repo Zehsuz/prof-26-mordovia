@@ -314,9 +314,7 @@ class QueryHttpClient with CustomLogger {
       );
       logDebug('Успех saveGameResult для gameId=${gameResult.gameId}');
 
-      return GameResultResponse.fromJson(
-        response.data.first as Map<String, dynamic>,
-      );
+      return GameResultResponse.fromJson(response.data.first);
     } on DioException catch (error) {
       logError(
         'saveGameResult завершился с ${error.runtimeType}: ${_resolveErrorMessage(error)}',

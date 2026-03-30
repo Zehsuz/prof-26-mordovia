@@ -99,7 +99,7 @@ class QueryGraphqlClient with CustomLogger {
 
       final node = (edges.first as Map)['node'];
       logDebug('Успех getGameById для gameId=$gameId');
-      return GameResponse.fromJson(Map<String, dynamic>.from(node as Map));
+      return GameResponse.fromJson(node);
     } catch (error) {
       if (error is DataException) {
         rethrow;
