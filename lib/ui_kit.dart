@@ -6,3 +6,4 @@ export 'src/presentation/typography/custom_icons.dart';
 //
 export 'src/presentation/widgets/custom_button.dart';
 export 'src/presentation/widgets/custom_input.dart';
+export 'src/presentation/widgets/custom_card.dart';

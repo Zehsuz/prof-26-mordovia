@@ -1,4 +1,5 @@
 import 'package:example/presentataion/components/custom_button.dart';
+import 'package:example/presentataion/components/custom_card.dart';
 import 'package:example/presentataion/components/custom_input.dart';
 import 'package:example/presentataion/components/icons.dart';
 import 'package:example/presentataion/components/palette.dart';
@@ -41,7 +42,11 @@ class App extends StatelessWidget {
             ),
             WidgetbookFolder(
               name: 'Widgets',
-              children: [CustomButtonUseCase(), CustomInputUseCase()],
+              children: [
+                CustomButtonUseCase(),
+                CustomInputUseCase(),
+                CustomCardUseCase(),
+              ],
             ),
           ],
         ),
