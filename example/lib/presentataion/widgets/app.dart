@@ -1,5 +1,6 @@
 import 'package:example/presentataion/components/custom_button.dart';
 import 'package:example/presentataion/components/custom_card.dart';
+import 'package:example/presentataion/components/custom_checkbox.dart';
 import 'package:example/presentataion/components/custom_input.dart';
 import 'package:example/presentataion/components/custom_timer.dart';
 import 'package:example/presentataion/components/icons.dart';
@@ -48,6 +49,7 @@ class App extends StatelessWidget {
                 CustomInputUseCase(),
                 CustomCardUseCase(),
                 CustomTimerUseCase(),
+                CustomCheckBoxUseCase(),
               ],
             ),
           ],
