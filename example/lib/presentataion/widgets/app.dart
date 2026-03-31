@@ -1,7 +1,10 @@
+import 'package:example/presentataion/components/custom_bottom_sheet.dart';
 import 'package:example/presentataion/components/custom_button.dart';
 import 'package:example/presentataion/components/custom_card.dart';
 import 'package:example/presentataion/components/custom_checkbox.dart';
 import 'package:example/presentataion/components/custom_input.dart';
+import 'package:example/presentataion/components/custom_paginator.dart';
+import 'package:example/presentataion/components/custom_selector.dart';
 import 'package:example/presentataion/components/custom_timer.dart';
 import 'package:example/presentataion/components/icons.dart';
 import 'package:example/presentataion/components/palette.dart';
@@ -50,6 +53,9 @@ class App extends StatelessWidget {
                 CustomCardUseCase(),
                 CustomTimerUseCase(),
                 CustomCheckBoxUseCase(),
+                CustomPaginatorUseCase(),
+                CustomBottomSheetUseCase(),
+                CustomSelectorUseCase(),
               ],
             ),
           ],

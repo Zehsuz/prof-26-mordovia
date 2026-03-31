@@ -9,3 +9,6 @@ export 'src/presentation/widgets/custom_input.dart';
 export 'src/presentation/widgets/custom_card.dart';
 export 'src/presentation/widgets/custom_timer.dart';
 export 'src/presentation/widgets/custom_checkbox.dart';
+export 'src/presentation/widgets/custom_paginator.dart';
+export 'src/presentation/widgets/custom_selector.dart';
+export 'src/presentation/widgets/custom_bottom_sheet.dart';
