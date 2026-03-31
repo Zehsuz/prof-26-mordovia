@@ -4,8 +4,14 @@ import 'package:logger_helper/logger_helper.dart';
 import 'package:ui_kit/src/presentation/theme/extension.dart';
 import 'package:ui_kit/ui_kit.dart';
 
+/// Назначение: enum отвечает за иницилизацию всех состояний Button
+/// Дата создание: 31.03.2026
+/// Автор создания: 4
 enum ButtonType { filled, iconText }
 
+/// Назначение: класс отвечает за определение всех состояний Button
+/// Дата создание: 31.03.2026
+/// Автор создания: 4
 class CustomButton extends StatelessWidget with CustomLogger {
   final ButtonType type;
   final String text;
