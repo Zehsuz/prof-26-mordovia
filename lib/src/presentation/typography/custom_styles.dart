@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+/// Назначение: класс отвечает за определение всех шрифтов приложения
+/// Дата создание: 31.03.2026
+/// Автор создания: 4
 class CustomStyles {
   CustomStyles._();
 
