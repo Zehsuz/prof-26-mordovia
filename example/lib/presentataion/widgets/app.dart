@@ -1,3 +1,4 @@
+import 'package:example/presentataion/components/custom_button.dart';
 import 'package:example/presentataion/components/icons.dart';
 import 'package:example/presentataion/components/palette.dart';
 import 'package:example/presentataion/components/styles.dart';
@@ -36,6 +37,10 @@ class App extends StatelessWidget {
             WidgetbookFolder(
               name: 'Typography',
               children: [StylesUseCase(), IconsUseCase()],
+            ),
+            WidgetbookFolder(
+              name: 'Widgets',
+              children: [CustomButtonUseCase()],
             ),
           ],
         ),
