@@ -39,6 +39,9 @@ dev_dependencies:
 
 flutter:
   fonts:
+    - family: CustomIconFont
+      fonts:
+        - asset: assets/fonts/CustomIconFont.otf
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins-ExtraBold.ttf

@@ -1,3 +1,4 @@
+import 'package:example/presentataion/components/icons.dart';
 import 'package:example/presentataion/components/palette.dart';
 import 'package:example/presentataion/components/styles.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,10 @@ class App extends StatelessWidget {
           name: 'UI-Kit',
           children: [
             WidgetbookFolder(name: 'Theme', children: [PaletteUseCase()]),
-            WidgetbookFolder(name: 'Typography', children: [StylesUseCase()]),
+            WidgetbookFolder(
+              name: 'Typography',
+              children: [StylesUseCase(), IconsUseCase()],
+            ),
           ],
         ),
       ],
