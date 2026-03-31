@@ -1,6 +1,7 @@
 import 'package:example/presentataion/components/custom_button.dart';
 import 'package:example/presentataion/components/custom_card.dart';
 import 'package:example/presentataion/components/custom_input.dart';
+import 'package:example/presentataion/components/custom_timer.dart';
 import 'package:example/presentataion/components/icons.dart';
 import 'package:example/presentataion/components/palette.dart';
 import 'package:example/presentataion/components/styles.dart';
@@ -46,6 +47,7 @@ class App extends StatelessWidget {
                 CustomButtonUseCase(),
                 CustomInputUseCase(),
                 CustomCardUseCase(),
+                CustomTimerUseCase(),
               ],
             ),
           ],
