@@ -217,7 +217,7 @@ packages:
     source: hosted
     version: "2.7.0"
   logger_helper:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "."
       ref: "30-03-26/1/logger_helper"

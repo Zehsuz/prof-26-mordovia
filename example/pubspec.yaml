@@ -15,6 +15,10 @@ dependencies:
   ui_kit:
     path: ../
 
+  logger_helper:
+    git:
+      url: https://gitea.intelligent-system.ru/train2026/Prof_26_Zahar.git
+      ref: 30-03-26/1/logger_helper
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:logger_helper/logger_helper.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgetbook/widgetbook.dart';
 
-class PaletteUseCase extends WidgetbookUseCase {
+class PaletteUseCase extends WidgetbookUseCase with CustomLogger {
   PaletteUseCase()
     : super(name: 'Palette', builder: (_) => throw UnimplementedError());
 
   @override
   Widget build(BuildContext context) {
+    logInfo('build() $runtimeType');
     final Map<String, dynamic> colorsMap = {
       'primaryPink': context.palette.primaryPink,
       'secondaryPink': context.palette.secondaryPink,
