@@ -1,10 +1,10 @@
-import 'dart:developer';
 import 'package:logging/logging.dart';
 
 /// назначение: mixin отвечает за логирование любых элементов
 /// создал: Захар
 /// дата создания: 30.03.26
 mixin CustomLogger {
+  late final _logging = Logger(runtimeType.toString());
   void logDebug(String message) {
     _log(message, level: .FINE);
   }
@@ -18,11 +18,9 @@ mixin CustomLogger {
   }
 
   void _log(String message, {required Level level}) {
-    log(
+    _logging.log(
+      level,
       message,
-      name: runtimeType.toString(),
-      level: level.value,
-      time: DateTime.timestamp(),
     );
   }
 }
