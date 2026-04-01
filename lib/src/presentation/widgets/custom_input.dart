@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger_helper/logger_helper.dart';
 import 'package:ui_kit/ui_kit.dart';
 
@@ -75,10 +76,18 @@ class _CustomInputState extends State<CustomInput>
                       _isObscured = !_isObscured;
                     });
                   },
-                  child: Icon(
-                    CustomIcons.eye,
-                    color: context.palette.text,
-                    size: 12.r,
+                  child: SvgPicture.asset(
+                    'packages/ui_kit/assets/icons/invisible.svg',
+                    colorFilter: ColorFilter.mode(
+                      context.palette.text,
+                      BlendMode.srcIn,
+                    ),
+                    width: 12.r,
+                    height: 8.r,
+                    placeholderBuilder: (context) =>
+                        const CircularProgressIndicator(),
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.error),
                   ),
                 ),
               ),
