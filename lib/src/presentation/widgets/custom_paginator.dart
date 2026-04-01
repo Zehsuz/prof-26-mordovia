@@ -10,7 +10,7 @@ class CustomPaginator extends StatelessWidget with CustomLogger {
   final int count;
   final int selectIndex;
 
-  const CustomPaginator({
+  CustomPaginator({
     super.key,
     required this.count,
     required this.selectIndex,

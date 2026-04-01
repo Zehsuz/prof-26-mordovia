@@ -19,6 +19,7 @@ dependencies:
     git:
       url: https://gitea.intelligent-system.ru/train2026/Prof_26_Zahar.git
       ref: 30-03-26/1/logger_helper
+  logging: ^1.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

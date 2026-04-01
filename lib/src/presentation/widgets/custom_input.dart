@@ -17,7 +17,7 @@ class CustomInput extends StatefulWidget with CustomLogger {
   final String hint;
   final TextEditingController controller;
 
-  const CustomInput({
+  CustomInput({
     super.key,
     required this.type,
     required this.hint,

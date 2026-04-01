@@ -11,7 +11,7 @@ class CustomTimer extends StatelessWidget with CustomLogger {
   final String hour;
   final String min;
 
-  const CustomTimer({super.key, required this.hour, required this.min});
+  CustomTimer({super.key, required this.hour, required this.min});
 
   @override
   Widget build(BuildContext context) {

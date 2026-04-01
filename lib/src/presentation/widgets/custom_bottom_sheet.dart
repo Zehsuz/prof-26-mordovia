@@ -10,7 +10,7 @@ class CustomBottomSheet extends StatelessWidget with CustomLogger {
   final List<String> items;
   final Function(String) onSelect;
 
-  const CustomBottomSheet({
+  CustomBottomSheet({
     super.key,
     required this.items,
     required this.onSelect,

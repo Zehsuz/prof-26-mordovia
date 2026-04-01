@@ -18,7 +18,7 @@ class CustomButton extends StatelessWidget with CustomLogger {
   final Icon? icon;
   final Function()? onPressed;
 
-  const CustomButton({
+  CustomButton({
     super.key,
     required this.type,
     required this.text,

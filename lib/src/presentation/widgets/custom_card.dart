@@ -10,7 +10,7 @@ import 'package:ui_kit/ui_kit.dart';
 class CustomCard extends StatelessWidget with CustomLogger {
   final Widget child;
 
-  const CustomCard({super.key, required this.child});
+  CustomCard({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
