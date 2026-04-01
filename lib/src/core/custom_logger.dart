@@ -24,3 +24,14 @@ mixin CustomLogger {
     );
   }
 }
+
+
+///   how to use
+///   main(){
+///    Logger.root.level = Level.ALL; // Устанавливаем уровень логирования
+///     Logger.root.onRecord.listen((record) {
+///       print('[${record.loggerName}]: ${record.level.name} - ${record.message}');
+///     });
+///
+///     //other code
+///   }
