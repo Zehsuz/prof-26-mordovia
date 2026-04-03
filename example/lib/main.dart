@@ -9,3 +9,25 @@ void main() {
   });
   runApp(App());
 }
+
+
+
+#  import 'package:appmetrica_plugin/appmetrica_plugin.dart'
+#
+#  void main() {
+  #  AppMetrica.activate(AppMetricaConfig('b86fa748-764f-48d6-a4bf-4883732cf66f'));
+  #
+  #
+  #}
+#
+#
+#  void onTap() {
+  #  AppMetrica.reportEvent('нажата кнопка регистрации');
+  #}
+#
+#  пробуй билдить, если ошибка, то иди в  build/app/outputs/mapping/release/missing_rules.txt,
+#  оттуда копируешь строчку(и) начинающиеся с -
+#  создай файл android/app/proguard-rules.pro и вставь туда строчки
+#
+#  прожми pub get и потом билди еще раз
+# https://docs.flutter.dev/deployment/android
